@@ -1,4 +1,4 @@
-````markdown
+
 # rate-limiter-middleware
 
 A simple and flexible rate-limiting middleware for Node.js that supports both Redis and in-memory storage. This package can be used to limit the number of requests made by users within a certain time frame, preventing abuse and protecting your application from being overwhelmed by traffic.
