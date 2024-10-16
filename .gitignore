@@ -1,0 +1,28 @@
+# Ignore the dist directory
+/dist
+
+# Ignore node_modules
+/node_modules
+example/node_modules
+
+# Ignore logs
+logs
+*.log
+npm-debug.log*
+
+# Ignore environment variable files
+.env
+
+# Ignore coverage directory
+/coverage
+
+# Ignore build output
+/build
+
+# Ignore temporary files
+*.tmp
+*.temp
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
