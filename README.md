@@ -18,7 +18,6 @@ Install the package via npm:
 ```bash
 npm install rate-limiter-middleware
 ```
-````
 
 ## Usage
 
