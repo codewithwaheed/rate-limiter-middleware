@@ -1,5 +1,5 @@
 {
-  "name": "rate-limiter-middleware",
+  "name": "@wah33d/rate-limiter-middleware",
   "version": "1.0.0",
   "description": "A rate limiting middleware for Express.js with support for in-memory and Redis stores",
   "main": "dist/index.js",
