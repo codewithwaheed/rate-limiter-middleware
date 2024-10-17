@@ -1,4 +1,3 @@
-
 # rate-limiter-middleware
 
 A simple and flexible rate-limiting middleware for Node.js that supports both Redis and in-memory storage. This package can be used to limit the number of requests made by users within a certain time frame, preventing abuse and protecting your application from being overwhelmed by traffic.
@@ -16,7 +15,7 @@ A simple and flexible rate-limiting middleware for Node.js that supports both Re
 Install the package via npm:
 
 ```bash
-npm install rate-limiter-middleware
+npm install @wah33d/rate-limiter-middleware
 ```
 
 ## Usage
@@ -39,7 +38,7 @@ You can use the middleware in two modes: **Redis** and **In-memory**.
 
 ```typescript
 // src/middleware/rateLimiter.ts
-import rateLimiter from "rate-limiter-middleware";
+import rateLimiter from "@wah33d/rate-limiter-middleware";
 
 const limiter = rateLimiter({
   limit: 100, // Limit of requests
@@ -75,7 +74,7 @@ npm install redis
 
 ```typescript
 // src/middleware/rateLimiter.ts
-import rateLimiter from "rate-limiter-middleware";
+import rateLimiter from "@wah33d/rate-limiter-middleware";
 import Redis from "redis";
 
 // Initialize Redis client
