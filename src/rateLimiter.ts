@@ -16,20 +16,24 @@ const rateLimiter = (options: RateLimiterOptions) => {
       })
     : new MemoryStore({ windowMs: options.windowMs });
 
-  return async (req: Request, res: Response, next: NextFunction) => {
-    const key = req.ip; // Use IP address as the key
+  return async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    const key = req.ip || "";
 
     try {
       const { count, ttlRemaining } = await store.increment(key);
 
       if (count > options.maxRequests) {
-        return res.status(429).json({
+        res.status(429).json({
           error: "Too many requests, please try again later.",
           retryAfter: ttlRemaining,
         });
+      } else {
+        next();
       }
-
-      next();
     } catch (err) {
       next(err);
     }

@@ -4,23 +4,27 @@ interface MemoryStoreOptions {
 
 class MemoryStore {
   private store: Record<string, { count: number; timestamp: number }> = {};
-  private windowMs: number;
 
-  constructor(options: MemoryStoreOptions) {
-    this.windowMs = options.windowMs;
-  }
+  constructor(private options: { windowMs: number }) {}
 
-  increment(key: string) {
-    const currentTime = Date.now();
-    if (
-      !this.store[key] ||
-      currentTime - this.store[key].timestamp > this.windowMs
-    ) {
-      this.store[key] = { count: 1, timestamp: currentTime };
+  async increment(
+    key: string
+  ): Promise<{ count: number; ttlRemaining: number }> {
+    const now = Date.now();
+    const windowStart = now - this.options.windowMs;
+
+    if (!this.store[key] || this.store[key].timestamp < windowStart) {
+      this.store[key] = { count: 1, timestamp: now };
     } else {
-      this.store[key].count += 1;
+      this.store[key].count++;
     }
-    return this.store[key];
+
+    return {
+      count: this.store[key].count,
+      ttlRemaining: Math.ceil(
+        (windowStart + this.options.windowMs - now) / 1000
+      ),
+    };
   }
 }
 

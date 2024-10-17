@@ -1,0 +1,59 @@
+name: Publish Package to npm
+
+on:
+  push:
+    tags:
+      - "v*.*.*" # Trigger the action on any tag that follows semver (e.g., v1.0.0)
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository to access the codebase
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js with version 20.x
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+          registry-url: "https://registry.npmjs.org/"
+
+      # Cache Node.js dependencies to speed up the workflow
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Run tests
+      - name: Run tests
+        run: npm test
+
+      # Build the package
+      - name: Build package
+        run: npm run build
+
+      # Publish the package to npm
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # Create a GitHub release after publishing
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: "New release published"
+        env:
+          GITHUB_TOKEN: ${{ secrets.NOT_GITHUB_TOKEN }}

@@ -3,7 +3,7 @@
 
 # Ignore node_modules
 /node_modules
-example/node_modules
+/example/node_modules
 
 # Ignore logs
 logs
